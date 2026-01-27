@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Electrical Load Forecasting Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+
+    <!-- 1. Title -->
+    <header class="page-header">
+      <h1>Electrical Load Forecasting</h1>
+    </header>
+
+    <!-- 2. Form -->
+    <section class="section section-form">
+      <form id="forecast-form" autocomplete="off">
+        <div class="form-group">
+          <label for="date">Forecast Date</label>
+          <input type="date" id="date" name="date" required />
+        </div>
+        <div class="form-group">
+          <label for="temperature">Temperature (°C)</label>
+          <input type="number" id="temperature" name="temperature" min="0" max="50" step="0.1" placeholder="0 – 50 °C" required />
+        </div>
+        <div class="form-group">
+          <label for="humidity">Humidity (%)</label>
+          <input type="number" id="humidity" name="humidity" min="0" max="100" step="0.1" placeholder="0 – 100 %" required />
+        </div>
+        <div class="form-group">
+          <label for="daytype">Day Type</label>
+          <select id="daytype" name="daytype" required>
+            <option value="">Select</option>
+            <option value="weekday">Weekday</option>
+            <option value="weekend">Weekend</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="season">Season</label>
+          <select id="season" name="season" required>
+            <option value="">Select</option>
+            <option value="summer">Summer</option>
+            <option value="monsoon">Monsoon</option>
+            <option value="winter">Winter</option>
+          </select>
+        </div>
+        <div class="button-group">
+          <button type="button" id="predict-btn">Predict Load</button>
+          <button type="reset" id="reset-btn">Reset</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- 3. Live Weather (context) -->
+    <section id="live-weather-section" class="section section-weather">
+      <h2 class="section-title">Live Weather (Delhi)</h2>
+      <p class="section-subtitle">Live context (updated every 60 seconds)</p>
+      <div id="weather-waiting" class="weather-waiting">
+        <span class="weather-waiting-text">Waiting for live data…</span>
+      </div>
+      <div class="weather-charts no-data" id="weather-charts-wrap">
+        <div class="weather-chart-card">
+          <canvas id="weatherTempChart"></canvas>
+        </div>
+        <div class="weather-chart-card">
+          <canvas id="weatherHumidityChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Forecast Output (hero) – hidden until prediction -->
+    <section id="forecast-section" class="section section-forecast hidden">
+      <h2 class="section-title">Forecasted Load</h2>
+      <div class="forecast-hero-card">
+        <div id="predicted-load" class="predicted-value" aria-live="polite">
+          <span class="predicted-mw">--</span><span class="predicted-unit"> MW</span>
+        </div>
+      </div>
+      <p class="forecast-meta">Short-term forecast • ANN (Bayesian Regularization) • MATLAB Engine</p>
+    </section>
+
+    <!-- 5. Trend Graph – hidden until prediction -->
+    <section id="chart-section" class="section section-trend hidden">
+      <h2 class="section-title">Delhi Load Trend</h2>
+      <p class="section-subtitle">Short-term load trend based on model output</p>
+      <div class="trend-chart-card">
+        <canvas id="loadChart"></canvas>
+      </div>
+    </section>
+
+  </div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
