@@ -1,193 +1,58 @@
-```markdown
-# ⚡ Electrical Load Forecasting using ANN  
-### MATLAB Model → Python Deployment → Cloud Ready
+Electrical Load Forecasting using ANN
+MATLAB Model to Python Deployment to Cloud Ready
 
-![Python](https://img.shields.io/badge/Python-3.10-blue)
-![Flask](https://img.shields.io/badge/Flask-API-green)
-![MATLAB](https://img.shields.io/badge/MATLAB-ANN-orange)
-![Status](https://img.shields.io/badge/Deployment-Ready-success)
+Project Overview
 
----
+This project presents a complete end-to-end implementation of short term electrical load forecasting using an Artificial Neural Network (ANN).
 
-## 📌 Project Overview
+The ANN was trained and validated in MATLAB using Delhi SLDC hourly load data for the year 2024. The trained model was then converted into a Python-based inference model by extracting the MATLAB network weights. This model was deployed as a real-time prediction API using Flask and is designed to be cloud ready for deployment on platforms such as Google Cloud Run.
 
-This project presents a complete end-to-end implementation of **Short Term Electrical Load Forecasting** using an Artificial Neural Network (ANN).
+The system predicts electrical load in megawatts based on temperature, humidity, day type, season, and date information.
 
-The ANN was:
+Objective
 
-- Trained and validated in **MATLAB** using Delhi SLDC hourly load data (2024)
-- Converted into a **Python inference model** by extracting MATLAB network weights
-- Deployed as a **real-time prediction API** using Flask
-- Designed to be **Google Cloud ready**
+The objective of this project is to demonstrate how a research-level ANN model developed in MATLAB can be transformed into a practical, deployable web application for real-time load forecasting.
 
-The system predicts electrical load (in MW) based on:
+Stage 1 – ANN Development in MATLAB
 
-- Temperature  
-- Humidity  
-- Day type (weekday / weekend)  
-- Season (summer / monsoon / winter)  
-- Date information  
+The ANN model was developed using MATLAB’s Neural Network Toolbox. The dataset was first cleaned using the moving mean technique to remove noise and missing values. All input features were normalized using custom scaling factors to bring them into a comparable range.
 
----
+The network was trained using the Levenberg–Marquardt algorithm. Model performance was evaluated using Mean Squared Error, regression plots, error histograms, and actual versus predicted load graphs. After testing different configurations, the optimal architecture was found to be two hidden layers with 90 neurons each.
 
-## 🎯 Objective
+The trained network was saved and its weights were extracted for deployment.
 
-To demonstrate how a research-level ANN model developed in MATLAB can be transformed into a **practical, deployable web application** for real-time load forecasting.
+Stage 2 – Python Deployment
 
----
+The MATLAB ANN was recreated in Python using NumPy by loading the extracted weights. This allows the model to run without requiring MATLAB during execution.
 
-## 🧠 Stage 1 — ANN Development in MATLAB
+System Flow
 
-Key steps:
+User input from the web page is sent to the Flask API. The Flask backend normalizes the inputs and passes them to the Python ANN. The ANN processes the inputs and returns the predicted load in megawatts.
 
-- Data cleaning using **Moving Mean**
-- Feature scaling using **custom normalization**
-- Training with **Levenberg–Marquardt (LM)**
-- Performance evaluation using:
-  - MSE
-  - Regression plots (R value)
-  - Error histogram
-  - Actual vs Predicted load graphs
-- Optimal architecture: **2 hidden layers, 90 neurons each**
+MATLAB is not required during runtime.
 
-The trained network was exported and its weights were used for deployment.
+Technology Stack
 
----
+Model Training: MATLAB ANN Toolbox
+Backend API: Python Flask
+ANN Inference: NumPy using MATLAB weights
+Frontend: HTML, CSS, JavaScript
+Deployment: Docker and Google Cloud Run
 
-## 🚀 Stage 2 — Python Deployment
+Project Structure
 
-The MATLAB ANN was recreated in Python using NumPy by loading the extracted weights.
+The project folder contains the Flask backend file app.py, the Python ANN file model.py, the extracted MATLAB weights file weights.mat, the requirements file, and the README.
 
-### System Flow
+Running the Project Locally
 
-```
+Install the required Python libraries using the requirements file. Run the Flask server using the app.py file. Send a POST request to the predict endpoint with temperature, humidity, day type, season, and date as inputs. The API returns the predicted load in megawatts.
 
-User Input (Web Page)
-↓
-Flask API (Python)
-↓
-ANN Inference (MATLAB weights)
-↓
-Predicted Load (MW)
+Data Source
 
-```
+Delhi SLDC hourly load data for the year 2024.
 
-MATLAB is **not required** at runtime.
+Future Scope
 
----
+The system can be extended by integrating a live weather API, building a dashboard to visualize predictions, storing predictions in a database, and upgrading to more advanced machine learning models such as LSTM or XGBoost.
 
-## 🛠️ Tech Stack
-
-| Component | Technology |
-|-----------|------------|
-| Model Training | MATLAB ANN Toolbox |
-| Backend API | Python Flask |
-| ANN Inference | NumPy (MATLAB weights) |
-| Frontend | HTML, CSS, JavaScript |
-| Deployment | Docker, Google Cloud Run |
-
----
-
-## 📂 Project Structure
-
-```
-
-load-forecast-python/
-│
-├── app.py              # Flask backend
-├── model.py            # ANN recreated from MATLAB weights
-├── weights.mat         # Extracted ANN weights
-├── requirements.txt
-└── README.md
-
-```
-
----
-
-## ▶️ Running the Project Locally
-
-### 1️⃣ Install dependencies
-
-```
-
-pip install -r requirements.txt
-
-```
-
-### 2️⃣ Run the server
-
-```
-
-python app.py
-
-````
-
-### 3️⃣ Test the API
-
-POST → `http://127.0.0.1:5000/predict`
-
-```json
-{
- "temperature": 30,
- "humidity": 70,
- "daytype": "weekday",
- "season": "summer",
- "date": "2024-05-15"
-}
-````
-
-Response:
-
-```json
-{
- "predicted_load": 6425.37
-}
-```
-
----
-
-## ☁️ Cloud Deployment Ready
-
-This project is containerized and can be deployed directly to:
-
-* Docker
-* Google Cloud Run
-
----
-
-## 📊 Model Performance Indicators
-
-* Low MSE
-* High regression coefficient (R ≈ 0.97)
-* Tight error distribution around zero
-* Predicted load closely follows actual load
-
----
-
-## 📎 Data Source
-
-Delhi SLDC (State Load Dispatch Centre) hourly load data — 2024.
-
----
-
-## 🔮 Future Scope
-
-* Live weather API integration
-* Historical dashboard
-* Database logging
-* Advanced ML models (LSTM, XGBoost)
-
----
-
-## 👩‍💻 Authors
-
-Electrical Engineering Students
-Load Forecasting using ANN
-
----
-
-### ⭐ This project bridges the gap between MATLAB research modeling and real-world ML deployment.
-
-```
-::contentReference[oaicite:0]{index=0}
-```
+This project demonstrates how MATLAB research modeling can be successfully converted into a real-world deployable machine learning application.
